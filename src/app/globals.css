@@ -1,26 +1,130 @@
 @import "tailwindcss";
 
+/* Truvela: warm dawn palette */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --cream: #fbf6ee;
+  --sand: #efe3d1;
+  --peach: #f3b994;
+  --apricot: #e8956b;
+  --sage: #9db394;
+  --moss: #4f6b4d;
+  --ink: #2b2520;
+  --ink-soft: #5c5148;
+  --line: #e4d6c3;
+  --false: #b5532f;
+  --true: #3f6b48;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-cream: var(--cream);
+  --color-sand: var(--sand);
+  --color-peach: var(--peach);
+  --color-apricot: var(--apricot);
+  --color-sage: var(--sage);
+  --color-moss: var(--moss);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-false: var(--false);
+  --color-true: var(--true);
+  --font-sans: var(--font-geist);
+  --font-serif: var(--font-newsreader);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--cream);
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  caret-color: var(--apricot);
+}
+
+::selection {
+  background: var(--peach);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--apricot);
+  outline-offset: 3px;
+}
+
+/* Hero entrance: content settles in from a soft blur */
+@keyframes settle {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+/* Verdict card: "checking" state hands over to the verdict */
+@keyframes checking-out {
+  0%, 58% { opacity: 1; }
+  68%, 100% { opacity: 0; visibility: hidden; }
+}
+@keyframes verdict-in {
+  0%, 68% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes scan {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(250%); }
+}
+
+.animate-settle {
+  animation: settle 1.1s var(--ease-out-expo) both;
+}
+.animate-checking-out {
+  animation: checking-out 3.2s ease-out both;
+}
+.animate-verdict-in {
+  animation: verdict-in 3.2s var(--ease-out-expo) both;
+}
+.animate-scan {
+  animation: scan 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-settle,
+  .animate-verdict-in {
+    animation: none;
+  }
+  .animate-checking-out {
+    animation: none;
+    display: none;
+  }
+  .animate-scan {
+    animation: none;
+  }
+}
+
+/* What-it-checks: result swaps in softly when a tab changes */
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-panel-in {
+  animation: panel-in 0.5s var(--ease-out-expo) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-panel-in {
+    animation: none;
+  }
 }
